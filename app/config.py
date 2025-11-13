@@ -18,6 +18,13 @@ class BaseConfig:
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", _default_database_uri())
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    # API settings
+    API_TITLE = "Pokémon Scouting API"
+    API_VERSION = "1.0.0"
+    OPENAPI_VERSION = "3.0.3"
+    OPENAPI_URL_PREFIX = "/api/docs"
+    OPENAPI_SWAGGER_UI_PATH = "/"
+    OPENAPI_SWAGGER_UI_URL = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
 
 class TestingConfig(BaseConfig):
     """Configuration used during automated tests."""
