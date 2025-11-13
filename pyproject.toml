@@ -1,31 +1,37 @@
-[build-system]
-requires = ["setuptools>=69", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
-name = "pokemon-scout"
+name = "pokemon-scouting"
 version = "0.1.0"
 description = "Pokémon scouting data pipeline built with Flask"
-readme = "GUIDE.md"
-requires-python = ">=3.11"
-authors = [{name = "Pokémon Scouts"}]
+authors = [
+    {name = "Samuel Sampaio",email = "samukasmk@gmail.com"}
+]
+license = {text = "Apache2"}
+readme = "README.md"
+requires-python = ">=3.14"
 dependencies = [
-    "Flask>=3.0,<4.0",
-    "Flask-SQLAlchemy>=3.1,<4.0",
-    "flask-smorest>=0.44,<0.45",
-    "marshmallow>=3.21,<4.0",
-    "marshmallow-sqlalchemy>=1.1,<2.0",
-    "requests>=2.32,<3.0",
-    "python-dotenv>=1.0,<2.0"
+    "flask (>=3.1.2,<4.0.0)",
+    "flask-sqlalchemy (>=3.1.1,<4.0.0)",
+    "flask-smorest (>=0.46.2,<0.47.0)",
+    "marshmallow (>=4.1.0,<5.0.0)",
+    "marshmallow-sqlalchemy (>=1.4.2,<2.0.0)",
+    "requests (>=2.32.5,<3.0.0)",
+    "python-dotenv (>=1.2.1,<2.0.0)",
+    "dynaconf (>=3.2.12,<4.0.0)",
+    "pydantic (>=2.12.4,<3.0.0)"
 ]
 
-[project.optional-dependencies]
-dev = [
-    "pytest>=8.3,<9.0",
-    "pytest-cov>=5.0,<6.0",
-    "coverage>=7.6,<8.0",
-    "responses>=0.25,<0.26"
-]
+[tool.poetry]
+package-mode = false
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^9.0.1"
+pytest-cov = "^7.0.0"
+coverage = "^7.11.3"
+responses = "^0.25.8"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.coverage.run]
 branch = true
