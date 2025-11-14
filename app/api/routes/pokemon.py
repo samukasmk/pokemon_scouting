@@ -1,14 +1,16 @@
 """API blueprint exposing Pokémon resources."""
 from __future__ import annotations
 
-from flask import current_app
+from flask import current_app, request
 from flask.views import MethodView
-from flask_smorest import Blueprint
+from flask_smorest import Blueprint, abort
+
 from app.api.schemas.pokemon import PokemonSchema, SyncRequestSchema, SyncResponseSchema
+from app.core.exceptions import PokemonSyncError
 from app.repositories.pokemon import PokemonRepository
 from app.services.pokeapi.client import PokeApiClient
 from app.services.pokeapi.formatter import PokeAPIFormatter
-from app.services.pokemon.service import record_schema, PokemonService
+from app.services.pokemon.service import PokemonService, record_schema
 
 blp = Blueprint(
     "Pokemon",
@@ -44,3 +46,28 @@ class PokemonCollection(MethodView):
         service = get_service()
         result = service.sync(payload["names"])
         return {"synced": result.synced, "errors": result.errors}
+
+
+@blp.route("/<string:name>")
+class PokemonResource(MethodView):
+    @blp.response(200, PokemonSchema)
+    def get(self, name: str):
+        """Return a single Pokémon, refreshing from PokeAPI if requested."""
+        repo = PokemonRepository()
+
+        # get refresh argument from query params
+        refresh = request.args.get("refresh", "false").lower() == "true"
+
+        # try to find Pokémon in local db
+        record = repo.get_by_name(name)
+        if record and not refresh:
+            return record_schema(record)
+
+        # if not found get from PokeAPI and save in db
+        service = get_service()
+        try:
+            result = service.sync([name])
+        except PokemonSyncError as exc:
+            abort(404, message=str(exc), errors=exc.errors)
+
+        return result.synced[0]
