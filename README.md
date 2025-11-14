@@ -40,7 +40,7 @@ This project delivers an end-to-end Pokémon scouting workflow built with Flask,
    ```bash
    docker compose up --build
    ```
-   The stack builds the Flask app image (served via uWSGI) and a lightweight Nginx proxy that exposes everything on `http://localhost:5000`, including Swagger at `/api/docs`.
+   The stack builds the Flask app image (served via uWSGI) and a lightweight Nginx proxy that exposes everything on `http://localhost`, including Swagger at `/api/docs`.
 3. **Shut down the stack**
    ```bash
    docker compose down
