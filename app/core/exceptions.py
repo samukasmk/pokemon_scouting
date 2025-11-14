@@ -10,6 +10,10 @@ class PokeApiError(AppError):
     """Raised when the upstream PokeAPI call fails."""
 
 
+class RepositoryError(AppError):
+    """Raised when persistence operations fail."""
+
+
 class PokemonSyncError(AppError):
     """Raised when the sync pipeline cannot complete."""
 
