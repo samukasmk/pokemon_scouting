@@ -17,6 +17,7 @@ class BaseConfig:
     TESTING = False
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", _default_database_uri())
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    JSON_SORT_KEYS = False
 
     # API settings
     API_TITLE = "Pokémon Scouting API"
@@ -25,6 +26,19 @@ class BaseConfig:
     OPENAPI_URL_PREFIX = "/api/docs"
     OPENAPI_SWAGGER_UI_PATH = "/"
     OPENAPI_SWAGGER_UI_URL = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
+
+    # PokeAPI settings
+    POKEAPI_BASE_URL = os.getenv("POKEAPI_BASE_URL", "https://pokeapi.co/api/v2/pokemon")
+    POKEAPI_TIMEOUT = int(os.getenv("POKEAPI_TIMEOUT", "8"))
+    DEFAULT_POKEMON = (
+        "pikachu",
+        "dhelmise",
+        "charizard",
+        "parasect",
+        "terodactyl",
+        "kingler",
+    )
+
 
 class TestingConfig(BaseConfig):
     """Configuration used during automated tests."""
