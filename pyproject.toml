@@ -1,0 +1,54 @@
+[project]
+name = "pokemon-scouting"
+version = "0.1.0"
+description = "Pokémon scouting data pipeline built with Flask"
+authors = [
+    {name = "Samuel Sampaio",email = "samukasmk@gmail.com"}
+]
+license = {text = "Apache2"}
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "flask (>=3.1.2,<4.0.0)",
+    "flask-sqlalchemy (>=3.1.1,<4.0.0)",
+    "flask-smorest (>=0.46.2,<0.47.0)",
+    "marshmallow (>=4.1.0,<5.0.0)",
+    "marshmallow-sqlalchemy (>=1.4.2,<2.0.0)",
+    "requests (>=2.32.5,<3.0.0)",
+    "python-dotenv (>=1.2.1,<2.0.0)",
+    "dynaconf (>=3.2.12,<4.0.0)",
+    "pydantic (>=2.12.4,<3.0.0)",
+    "uwsgi (>=2.0.26,<3.0.0)"
+]
+
+[tool.poetry]
+package-mode = false
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^9.0.1"
+pytest-cov = "^7.0.0"
+coverage = "^7.11.3"
+responses = "^0.25.8"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.coverage.run]
+branch = true
+source = ["app"]
+omit = [
+    "tests/*",
+    "app/__main__.py"
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+precision = 2
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-ra --strict-markers --strict-config --cov=app --cov-report=term-missing"
+testpaths = ["tests"]
+
