@@ -19,7 +19,7 @@ class PokemonSchema(Schema):
 
 
 class SyncRequestSchema(Schema):
-    names = fields.List(fields.Str(), required=True, description="List of Pokémon names")
+    names = fields.List(fields.Str(), required=True, metadata={"description": "List of Pokémon names"})
 
     @validates_schema
     def validate_names(self, data, **kwargs):
@@ -34,6 +34,6 @@ class SyncResponseSchema(Schema):
         keys=fields.Str(),
         values=fields.Str(),
         required=True,
-        description="Failed Pokémon keyed by their provided names",
+        metadata={"description": "Failed Pokémon keyed by their provided names"},
     )
 

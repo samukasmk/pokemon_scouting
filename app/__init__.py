@@ -6,6 +6,7 @@ from flask import Flask
 from app import cli
 from app.config import get_config
 from app.api.routes.health import blp as health_blp
+from app.api.routes.pokemon import blp as pokemon_blp
 from app.extensions import api, db, register_error_handlers
 
 
@@ -31,6 +32,7 @@ def create_app(config_name: str | None = None) -> Flask:
 
     # initialize api blueprints
     api.register_blueprint(health_blp)
+    api.register_blueprint(pokemon_blp)
 
     # initialize cli commands
     cli.init_app(app)

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime
 from pathlib import Path
 
 import pytest
@@ -64,6 +65,7 @@ def persisted_pokemon(sample_payload) -> Pokemon:
         types=["electric"],
         stats={"speed": 90},
         sprite="http://example.com/sprite.png",
+        captured_at=datetime.fromisoformat(sample_payload["captured_at"]),
     )
     _db.session.add(pokemon)
     _db.session.commit()

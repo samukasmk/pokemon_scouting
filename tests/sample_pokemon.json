@@ -16,5 +16,6 @@
     {"base_stat": 55, "stat": {"name": "attack"}},
     {"base_stat": 90, "stat": {"name": "speed"}}
   ],
-  "sprites": {"front_default": "http://example.com/sprite.png"}
+  "sprites": {"front_default": "http://example.com/sprite.png"},
+  "captured_at": "2025-11-14T04:11:17.766955"
 }
