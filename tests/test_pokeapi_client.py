@@ -4,7 +4,7 @@ import pytest
 import responses
 
 from app.core.exceptions import PokeApiError
-from app.services.pokeapi_client import PokeApiClient
+from app.services.pokeapi.client import PokeApiClient
 
 
 @responses.activate
