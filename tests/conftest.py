@@ -16,8 +16,19 @@ from app.models import Pokemon
 @pytest.fixture(scope="session")
 def app() -> Flask:
     app = create_app("testing")
-    yield app
+    @app.route("/__validation")
+    def _validation_error():  # pragma: no cover - route definition
+        raise ValidationError({"names": ["invalid"]})
 
+    @app.route("/__app_error")
+    def _app_error():  # pragma: no cover - route definition
+        raise PokemonSyncError("boom", errors={"pikachu": "timeout"})
+
+    @app.route("/__app_error_simple")
+    def _app_error_simple():  # pragma: no cover - route definition
+        raise PokemonSyncError("simple-error")
+
+    yield app
 
 @pytest.fixture(autouse=True)
 def app_context(app):
