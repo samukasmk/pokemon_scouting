@@ -4,7 +4,7 @@ import pytest
 from sqlalchemy.exc import SQLAlchemyError
 
 from app.core.exceptions import RepositoryError
-from app.repositories.pokemon_repository import PokemonRepository
+from app.repositories.pokemon import PokemonRepository
 
 
 def sample_payload_factory(sample_payload):
