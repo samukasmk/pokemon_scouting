@@ -10,7 +10,7 @@ from app.core.exceptions import PokemonSyncError
 from app.repositories.pokemon import PokemonRepository
 from app.services.pokeapi.client import PokeApiClient
 from app.services.pokeapi.formatter import PokeAPIFormatter
-from app.services.pokemon.service import PokemonService, record_schema
+from app.services.pokemon.service import PokemonService
 
 blp = Blueprint(
     "Pokemon",
@@ -37,7 +37,7 @@ class PokemonCollection(MethodView):
     def get(self):
         """Return all Pokémon persisted in the database."""
         repo = PokemonRepository()
-        return [record_schema(record) for record in repo.list_all()]
+        return repo.list_all()
 
     @blp.arguments(SyncRequestSchema)
     @blp.response(200, SyncResponseSchema)
@@ -45,7 +45,7 @@ class PokemonCollection(MethodView):
         """Synchronize Pokémon records with PokeAPI."""
         service = get_service()
         result = service.sync(payload["names"])
-        return {"synced": result.synced, "errors": result.errors}
+        return result
 
 
 @blp.route("/<string:name>")
@@ -61,7 +61,7 @@ class PokemonResource(MethodView):
         # try to find Pokémon in local db
         record = repo.get_by_name(name)
         if record and not refresh:
-            return record_schema(record)
+            return record
 
         # if not found get from PokeAPI and save in db
         service = get_service()

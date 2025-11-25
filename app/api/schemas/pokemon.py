@@ -6,8 +6,8 @@ from marshmallow import Schema, fields, validates_schema, ValidationError
 
 class PokemonSchema(Schema):
     id = fields.Int(dump_only=True)
-    pokedex_id = fields.Int(required=True, dump_only=True)
     name = fields.Str(required=True)
+    pokedex_id = fields.Int(required=True)
     base_experience = fields.Int(required=True)
     height = fields.Int(required=True)
     weight = fields.Int(required=True)
@@ -36,4 +36,3 @@ class SyncResponseSchema(Schema):
         required=True,
         metadata={"description": "Failed Pokémon keyed by their provided names"},
     )
-

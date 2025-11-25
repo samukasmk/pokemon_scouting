@@ -21,6 +21,9 @@ def create_app(config_name: str | None = None) -> Flask:
     config_class = get_config(config_name or None)
     app.config.from_object(config_class)
 
+    # ensure JSON responses keep schema field order
+    app.json.sort_keys = False
+
     # initialize db connection
     db.init_app(app)
 
