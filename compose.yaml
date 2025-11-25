@@ -6,6 +6,7 @@ services:
     image: pokemon_scouting:app
     environment:
       FLASK_ENV: production
+      INSTANCE_PATH: /app/instance
     volumes:
       - ./:/app
     expose:

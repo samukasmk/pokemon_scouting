@@ -11,7 +11,7 @@ ENV PYTHONUNBUFFERED=1 \
     PATH="${POETRY_HOME}/bin:${PATH}"
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends build-essential curl python3-dev \
+    && apt-get install -y --no-install-recommends build-essential curl python3-dev gosu \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --upgrade pip
@@ -31,7 +31,11 @@ RUN groupadd --gid 7777 api \
     && useradd --home /app --gid api --uid 7777 api \
     && chown -R api:api /app
 
-USER api
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+USER root
+ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 8000
 
