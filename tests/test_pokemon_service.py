@@ -34,7 +34,7 @@ def test_sync_deduplicates_and_alias(sample_payload):
     service, client = make_service(sample_payload)
     result = service.sync(["Pikachu", "pikachu", "Terodactyl"])
     assert len(result.synced) == 2
-    assert "aerodactyl" in {rec["name"] for rec in result.synced}
+    assert "aerodactyl" in {rec.name for rec in result.synced}
     assert client.calls[1] == "aerodactyl"
     assert result.success is True
 
