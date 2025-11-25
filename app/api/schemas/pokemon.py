@@ -4,9 +4,10 @@ from __future__ import annotations
 from marshmallow import Schema, fields, validates_schema, ValidationError
 
 
-class PokemonBaseSchema(Schema):
-    pokedex_id = fields.Int(required=True)
+class PokemonSchema(Schema):
+    id = fields.Int(dump_only=True)
     name = fields.Str(required=True)
+    pokedex_id = fields.Int(required=True)
     base_experience = fields.Int(required=True)
     height = fields.Int(required=True)
     weight = fields.Int(required=True)
@@ -14,10 +15,6 @@ class PokemonBaseSchema(Schema):
     types = fields.List(fields.Str(), required=True)
     stats = fields.Dict(keys=fields.Str(), values=fields.Int(), required=True)
     sprite = fields.Url(allow_none=True)
-
-
-class PokemonSchema(PokemonBaseSchema):
-    id = fields.Int(dump_only=True)
     captured_at = fields.DateTime(dump_only=True)
 
 
