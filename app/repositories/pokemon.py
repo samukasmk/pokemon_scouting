@@ -4,7 +4,7 @@ from __future__ import annotations
 from sqlalchemy.exc import SQLAlchemyError
 
 from app.core.exceptions import RepositoryError
-from app.extensions import db
+from app.extensions.database import db
 from app.models import Pokemon
 from app.utils.naming import normalize_name
 

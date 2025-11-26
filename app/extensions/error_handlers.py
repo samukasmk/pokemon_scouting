@@ -2,23 +2,9 @@
 
 from __future__ import annotations
 
-from flask_smorest import Api
-from flask_sqlalchemy import SQLAlchemy
 from marshmallow import ValidationError
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
 from app.core.exceptions import AppError
-
-db = SQLAlchemy()
-api = Api()
-
-
-class BaseSchema(SQLAlchemyAutoSchema):
-    """Base SQLAlchemy schema providing shared Meta options."""
-
-    class Meta:
-        load_instance = True
-        sqla_session = db.session
 
 
 def register_error_handlers(app):
@@ -36,3 +22,7 @@ def register_error_handlers(app):
             payload["errors"] = errors
         return payload, 400
 
+
+def init_app(app):
+    # register error pages when received exceptions
+    register_error_handlers(app)
