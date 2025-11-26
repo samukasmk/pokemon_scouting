@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import Iterable
 
 from app.core.exceptions import PokemonSyncError
-from app.models import Pokemon
+from app.models.pokemon import Pokemon
 from app.repositories.pokemon import PokemonRepository
 from app.services.pokeapi.formatter import PokeAPIFormatter
 from app.services.pokeapi.client import PokeApiClient

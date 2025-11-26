@@ -6,7 +6,7 @@ from datetime import datetime, UTC
 from sqlalchemy import DateTime, Integer, String, Text
 from sqlalchemy.dialects.sqlite import JSON
 
-from .extensions import db
+from app.extensions.database import db
 
 
 class Pokemon(db.Model):

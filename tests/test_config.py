@@ -4,7 +4,7 @@ from contextlib import contextmanager
 from pathlib import Path
 
 from app import create_app
-from app.extensions import db as _db
+from app.extensions.database import db as _db
 
 
 @contextmanager
