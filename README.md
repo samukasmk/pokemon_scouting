@@ -68,19 +68,24 @@ This project delivers an end-to-end Pokémon scouting workflow built with Flask,
    ```
 
 ## Configuration
-Environment variables (or the values in `app/config.py`) let you tailor the service:
+Environment variables (or the values in `settings.toml`) let you tailor the service:
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
-| `DATABASE_URL` | `sqlite:///instance/pokemon.db` | Target database for SQLAlchemy |
-| `POKEAPI_BASE_URL` | `https://pokeapi.co/api/v2/pokemon` | Upstream API root |
-| `POKEAPI_TIMEOUT` | `8` | HTTP timeout budget in seconds |
-| `FLASK_ENV` | `development` | Controls which config class is used |
+| `ENV_FOR_DYNACONF` | `default` | Selects which settings section to load (`default`, `development`, `testing`, `production`) |
+| `POKEMON_SQLALCHEMY_DATABASE_URI` | `sqlite:///pokemon.db` | Target database for SQLAlchemy |
+| `POKEMON_POKEAPI_BASE_URL` | `https://pokeapi.co/api/v2/pokemon` | Upstream API root |
+| `POKEMON_POKEAPI_TIMEOUT` | `8` | HTTP timeout budget in seconds |
+| `POKEMON_DEFAULT_POKEMON` | see `settings.toml` | Default list for the CLI sync |
 
 To scout different Pokémon, either:
 - Pass `--names` to the CLI (`flask --app app:create_app pokemon-sync --names eevee snorlax`).
 - POST `{"names": ["eevee", "snorlax"]}` to `POST /api/pokemon`.
-- Update `DEFAULT_POKEMON` in `app/config.py` for a new default list.
+- Update `DEFAULT_POKEMON` in `settings.toml` (or override via `POKEMON_DEFAULT_POKEMON`) for a new default list.
+
+> For more information about how this config settings pattern works:
+> - config management: https://www.dynaconf.com/
+> - config file format: https://toml.io/en/
 
 ## Testing & Coverage
 Run the full suite with enforced 100% coverage:
@@ -97,7 +102,7 @@ app/
   repositories/ # Persistence helpers
   core/         # Exceptions and shared plumbing
   models.py     # SQLAlchemy models
-  config.py     # Environment-aware settings
+  settings.toml # Dynaconf settings (env aware)
 wsgi.py         # Production entrypoint
 README.md       # This document
 AGENTS.md       # A reference for AI agents
