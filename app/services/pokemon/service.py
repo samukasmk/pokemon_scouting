@@ -5,16 +5,16 @@ from dataclasses import dataclass
 from typing import Iterable
 
 from app.core.exceptions import PokemonSyncError
+from app.models.pokemon import Pokemon
 from app.repositories.pokemon import PokemonRepository
 from app.services.pokeapi.formatter import PokeAPIFormatter
 from app.services.pokeapi.client import PokeApiClient
-from app.services.pokemon.schema import record_schema
 from app.utils.naming import normalize_name
 
 
 @dataclass(slots=True)
 class SyncResult:
-    synced: list[dict]
+    synced: list[Pokemon]
     errors: dict[str, str]
 
     @property
@@ -47,7 +47,7 @@ class PokemonService:
         if not unique_names:
             raise PokemonSyncError("No valid Pokémon names provided")
 
-        synced_records: list[dict] = []
+        synced_records: list[Pokemon] = []
         errors: dict[str, str] = {}
 
         # get each Pokémon and create or update in db
@@ -56,7 +56,7 @@ class PokemonService:
                 raw = self.client.fetch_pokemon(name)
                 sanitized = self.formatter.build(raw)
                 saved = self.repository.upsert(sanitized)
-                synced_records.append(record_schema(saved))
+                synced_records.append(saved)
             except Exception as exc:
                 errors[name] = str(exc)
 
@@ -65,5 +65,3 @@ class PokemonService:
             raise PokemonSyncError("Unable to sync requested Pokémon", errors=errors)
 
         return SyncResult(synced=synced_records, errors=errors)
-
-

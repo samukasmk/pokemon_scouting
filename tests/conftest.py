@@ -10,13 +10,14 @@ from marshmallow import ValidationError
 
 from app import create_app
 from app.core.exceptions import PokemonSyncError
-from app.extensions import db as _db
-from app.models import Pokemon
+from app.extensions.database import db as _db
+from app.models.pokemon import Pokemon
 
 
 @pytest.fixture(scope="session")
 def app() -> Flask:
     app = create_app("testing")
+
     @app.route("/__validation")
     def _validation_error():  # pragma: no cover - route definition
         raise ValidationError({"names": ["invalid"]})
@@ -31,6 +32,12 @@ def app() -> Flask:
 
     yield app
 
+    # ensure the in-memory SQLite engine is fully closed between test runs
+    with app.app_context():
+        _db.session.remove()
+        _db.engine.dispose()
+
+
 @pytest.fixture(autouse=True)
 def app_context(app):
     ctx = app.app_context()
@@ -39,6 +46,7 @@ def app_context(app):
     yield
     _db.session.remove()
     _db.drop_all()
+    _db.engine.dispose()
     ctx.pop()
 
 

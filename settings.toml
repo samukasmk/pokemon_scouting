@@ -1,0 +1,34 @@
+[default]
+DEBUG = false
+TESTING = false
+SQLALCHEMY_DATABASE_URI = "sqlite:///pokemon.db"
+SQLALCHEMY_TRACK_MODIFICATIONS = false
+JSON_SORT_KEYS = false
+
+API_TITLE = "Pokémon Scouting API"
+API_VERSION = "1.0.0"
+OPENAPI_VERSION = "3.0.3"
+OPENAPI_URL_PREFIX = "/api/docs"
+OPENAPI_SWAGGER_UI_PATH = "/"
+OPENAPI_SWAGGER_UI_URL = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
+
+POKEAPI_BASE_URL = "https://pokeapi.co/api/v2/pokemon"
+POKEAPI_TIMEOUT = 8
+DEFAULT_POKEMON = [
+  "pikachu",
+  "dhelmise",
+  "charizard",
+  "parasect",
+  "terodactyl",
+  "kingler",
+]
+
+[development]
+DEBUG = true
+
+[testing]
+TESTING = true
+SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+
+[production]
+# Defaults apply; override here if needed.

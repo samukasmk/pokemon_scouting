@@ -6,6 +6,8 @@ services:
     image: pokemon_scouting:app
     environment:
       FLASK_ENV: production
+      ENV_FOR_DYNACONF: production
+      INSTANCE_PATH: /app/instance
     volumes:
       - ./:/app
     expose:
