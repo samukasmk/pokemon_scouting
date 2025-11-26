@@ -5,7 +5,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from app.core.exceptions import RepositoryError
 from app.extensions.database import db
-from app.models import Pokemon
+from app.models.pokemon import Pokemon
 from app.utils.naming import normalize_name
 
 

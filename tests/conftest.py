@@ -11,7 +11,7 @@ from marshmallow import ValidationError
 from app import create_app
 from app.core.exceptions import PokemonSyncError
 from app.extensions.database import db as _db
-from app.models import Pokemon
+from app.models.pokemon import Pokemon
 
 
 @pytest.fixture(scope="session")
