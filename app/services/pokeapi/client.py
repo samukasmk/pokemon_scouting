@@ -23,6 +23,8 @@ class PokeApiClient:
             raise PokeApiError("Pokémon name cannot be empty")
 
         name = normalize_name(name)
+        if not name:
+            raise PokeApiError("Pokémon name cannot be empty")
         url = f"{self.base_url}/{name}"
 
         try:

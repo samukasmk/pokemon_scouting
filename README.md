@@ -40,7 +40,7 @@ This project delivers an end-to-end Pokémon scouting workflow built with Flask,
    ```bash
    docker compose up --build
    ```
-   The stack builds the Flask app image (served via uWSGI) and a lightweight Nginx proxy that exposes everything on `http://localhost`, including Swagger at `/api/docs`.
+   The stack builds the Flask app image (served via uWSGI), a Celery worker, a RabbitMQ broker, and a lightweight Nginx proxy that exposes everything on `http://localhost`, including Swagger at `/api/docs`.
 3. **Shut down the stack**
    ```bash
    docker compose down
@@ -67,6 +67,15 @@ This project delivers an end-to-end Pokémon scouting workflow built with Flask,
    flask run
    ```
 
+5. **Run Celery worker (requires a broker)**
+   ```bash
+   # start RabbitMQ locally via compose
+   docker compose up rabbitmq -d
+
+   # in another terminal, start the worker
+   celery -A celery_worker.celery_app worker --loglevel=info --queues=pokemon_sync
+   ```
+
 ## Configuration
 Environment variables (or the values in `settings.toml`) let you tailor the service:
 
@@ -77,6 +86,12 @@ Environment variables (or the values in `settings.toml`) let you tailor the serv
 | `POKEMON_POKEAPI_BASE_URL` | `https://pokeapi.co/api/v2/pokemon` | Upstream API root |
 | `POKEMON_POKEAPI_TIMEOUT` | `8` | HTTP timeout budget in seconds |
 | `POKEMON_DEFAULT_POKEMON` | see `settings.toml` | Default list for the CLI sync |
+| `POKEMON_CELERY_BROKER_URL` | `amqp://guest:guest@rabbitmq:5672//` | Celery broker URL |
+| `POKEMON_CELERY_RESULT_BACKEND` | `rpc://` | Celery result backend |
+| `POKEMON_CELERY_TASK_DEFAULT_QUEUE` | `pokemon_sync` | Default Celery queue |
+| `POKEMON_CELERY_TASK_TIME_LIMIT` | `30` | Hard time limit for tasks |
+| `POKEMON_CELERY_TASK_SOFT_TIME_LIMIT` | `25` | Soft time limit for tasks |
+| `POKEMON_CELERY_TASK_RETRY_DELAY` | `5` | Delay between retries |
 
 To scout different Pokémon, either:
 - Pass `--names` to the CLI (`flask --app app:create_app pokemon-sync --names eevee snorlax`).

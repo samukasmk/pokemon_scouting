@@ -36,3 +36,23 @@ def test_get_pokemon_refresh_fetches_when_missing(client, sample_payload):
     resp = client.get("/api/pokemon/pikachu?refresh=true")
     assert resp.status_code == 200
     assert resp.get_json()["name"] == "pikachu"
+
+
+def test_get_pokemon_uses_cached_record(client, persisted_pokemon):
+    resp = client.get("/api/pokemon/pikachu")
+    assert resp.status_code == 200
+    assert resp.get_json()["id"] == persisted_pokemon.id
+
+
+@responses.activate
+def test_get_pokemon_handles_sync_failure(client):
+    responses.add(
+        responses.GET,
+        f"{API_BASE}/missingno",
+        status=404,
+    )
+
+    resp = client.get("/api/pokemon/missingno?refresh=true")
+    assert resp.status_code == 404
+    body = resp.get_json()
+    assert "errors" in body

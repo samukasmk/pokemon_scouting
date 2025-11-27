@@ -23,12 +23,31 @@ DEFAULT_POKEMON = [
   "kingler",
 ]
 
+# Celery
+CELERY_BROKER_URL = "amqp://guest:guest@rabbitmq:5672//"
+CELERY_RESULT_BACKEND = "rpc://"
+CELERY_TASK_DEFAULT_QUEUE = "pokemon_sync"
+CELERY_TASK_TIME_LIMIT = 30
+CELERY_TASK_SOFT_TIME_LIMIT = 25
+CELERY_TASK_RETRY_DELAY = 5
+CELERY_TASK_MAX_RETRIES = 3
+CELERY_TASK_ACKS_LATE = true
+CELERY_TASK_IGNORE_RESULT = false
+CELERY_TASK_ALWAYS_EAGER = false
+CELERY_TASK_STORE_EAGER_RESULT = false
+CELERY_RESULT_EXPIRES = 3600
+
 [development]
 DEBUG = true
 
 [testing]
 TESTING = true
 SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+CELERY_BROKER_URL = "memory://"
+CELERY_RESULT_BACKEND = "rpc://"
+CELERY_TASK_ALWAYS_EAGER = true
+CELERY_TASK_STORE_EAGER_RESULT = true
+CELERY_TASK_IGNORE_RESULT = false
 
 [production]
 # Defaults apply; override here if needed.

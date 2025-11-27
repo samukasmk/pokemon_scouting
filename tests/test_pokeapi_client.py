@@ -38,6 +38,12 @@ def test_fetch_pokemon_rejects_blank_name():
         client.fetch_pokemon("   ")
 
 
+def test_fetch_pokemon_rejects_empty_name():
+    client = PokeApiClient("https://pokeapi.co/api/v2/pokemon")
+    with pytest.raises(PokeApiError):
+        client.fetch_pokemon("")
+
+
 @responses.activate
 def test_fetch_pokemon_requires_id(sample_payload):
     client = PokeApiClient("https://pokeapi.co/api/v2/pokemon")
